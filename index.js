@@ -31,7 +31,7 @@ app.post('/send-email', function (req, res) {
   let mailOptions = {
     from: config.senderEmail, // sender address
     to: config.reciverEmail, // list of receivers
-    subject: 'subject', // Subject line
+    subject: 'NEW CLIENT HAS REGISTERED', // Subject line
     html: `<b>Business name: ${businessName}</b><br>
            <b>Business address: ${bysinessAddress}</b><br>
            <img src="${image}" alt="">` , // html body
