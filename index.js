@@ -39,13 +39,6 @@ app.post('/send-email', function (req, res) {
     html: `<b>Business name: ${businessName}</b><br>
            <b>Business address: ${businessAddress}</b><br>
            <img src="${image}" alt="">` , // html body
-    attachments: [
-      {
-        filename: 'img.jpg',
-        content: image?.split("base64,")[1] || image,
-        encoding: 'base64'
-      }
-    ]
   };
 
   try {
