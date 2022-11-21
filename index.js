@@ -42,7 +42,7 @@ app.post('/send-email', function (req, res) {
     attachments: [
       {
         filename: 'img.jpg',
-        content: image.split("base64,")[1],
+        content: image?.split("base64,")[1] || image,
         encoding: 'base64'
       }
     ]
