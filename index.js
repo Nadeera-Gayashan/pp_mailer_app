@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/send-email', function (req, res) {
-  const {image, businessName, bysinessAddress} = req.body;
+  const {image, businessName, businessAddress} = req.body;
 
   const transporter = nodeMailer.createTransport({
     host: 'smtp.gmail.com',
@@ -37,7 +37,7 @@ app.post('/send-email', function (req, res) {
     to: config.reciverEmail, // list of receivers
     subject: 'NEW CLIENT HAS REGISTERED', // Subject line
     html: `<b>Business name: ${businessName}</b><br>
-           <b>Business address: ${bysinessAddress}</b><br>
+           <b>Business address: ${businessAddress}</b><br>
            <img src="${image}" alt="">` , // html body
     attachments: [
       {
