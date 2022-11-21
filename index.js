@@ -2,8 +2,12 @@ const express = require('express')
 const config = require('./config')
 const bodyParser = require('body-parser');
 const nodeMailer = require('nodemailer');
-
+const cors = require('cors');
 const app = express()
+
+app.use(cors({
+  origin: '*'
+}));
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
@@ -52,12 +56,15 @@ app.post('/send-email', function (req, res) {
 
       console.log('Message %s sent: %s', info.messageId, info.response);
 
+      res.setHeader('Access-Control-Allow-Origin', '*');
       res.send({
         code: 200,
         message: 'The message was sent'
       })
     });
   } catch (e) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
     res.send({
       code: 500,
       message: 'Something went wrong with sending email'
