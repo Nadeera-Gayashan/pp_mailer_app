@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.post('/send-email', function (req, res) {
   const {image, businessName, businessAddress} = req.body;
+  console.log(req.body, 'body');
 
   const transporter = nodeMailer.createTransport({
     host: 'smtp.gmail.com',
