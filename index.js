@@ -2,6 +2,8 @@ const express = require('express')
 const config = require('./config')
 const bodyParser = require('body-parser');
 const nodeMailer = require('nodemailer');
+const BigCommerce = require('node-bigcommerce');
+
 const cors = require('cors');
 const app = express()
 
@@ -13,6 +15,14 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 const port = config.port;
+
+const bigCommerce = new BigCommerce({
+  clientId: 'mzq0supnse4z785wmcez9ssg2dxgrjf',
+  accessToken: '8j2a33rpczgpchmd45jakzdgzl1e304',
+  storeHash: 'cvs5hyte09',
+  responseType: 'json',
+  apiVersion: 'v3' // Default is v2
+});
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -48,18 +58,8 @@ app.post('/send-email', cors(), function (req, res) {
         return console.log(error);
       }
 
-      const options = {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          accept: 'application/json',
-          'X-Auth-Client': 'mzq0supnse4z785wmcez9ssg2dxgrjf',
-          'X-Auth-Token': '8j2a33rpczgpchmd45jakzdgzl1e304'
-        },
-        body: `[{"email": ${businessEmail} ,"first_name": ${businessName},"last_name":${businessName}]`
-      };
-
-      fetch('https://api.bigcommerce.com/stores/cvs5hyte09/v3/customers', options)
+      const customer = `[{"email": ${businessEmail} ,"first_name": ${businessName},"last_name":${businessName}]`;
+      bigCommerce.post('/customers' , customer)
         .then(response => response.json())
         .then(response => console.log(response))
         .catch(err => console.error(err));
