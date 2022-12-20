@@ -52,9 +52,9 @@ app.post('/send-email', cors(), function (req, res) {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json',
-          'X-Auth-Token': '8j2a33rpczgpchmd45jakzdgzl1e304',
-          'Access-Control-Allow-Origin': '*'
+          accept: 'application/json',
+          'X-Auth-Client': 'mzq0supnse4z785wmcez9ssg2dxgrjf',
+          'X-Auth-Token': '8j2a33rpczgpchmd45jakzdgzl1e304'
         },
         body: `[{"email": ${businessEmail} ,"first_name": ${businessName},"last_name":${businessName}]`
       };
