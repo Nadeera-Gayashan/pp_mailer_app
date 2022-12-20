@@ -30,7 +30,6 @@ app.get('/', (req, res) => {
 
 app.post('/send-email', cors(), function (req, res) {
   const {image, businessName, businessAddress, businessEmail} = req.body;
-  console.log(req, 'req');
 
   const transporter = nodeMailer.createTransport({
     host: 'smtp.gmail.com',
@@ -49,7 +48,7 @@ app.post('/send-email', cors(), function (req, res) {
     html: `<b>Business name: ${businessName}</b><br>
            <b>Business address: ${businessAddress}</b><br>
            <b>Business email: ${businessEmail}</b><br>
-           <img src="${image}" alt="">` , // html body
+           <img src="${image}" alt="">`, // html body
   };
 
   try {
@@ -58,14 +57,16 @@ app.post('/send-email', cors(), function (req, res) {
         return console.log(error);
       }
 
-      const customer = `[{"email": ${businessEmail} ,"first_name": ${businessName},"last_name":${businessName}]`;
+      const customer = [{
+          "email": businessEmail,
+          "first_name": businessName,
+          "last_name": businessName
+        }];
+
       bigCommerce.post('/customers' , customer)
-        .then(response => response.json())
         .then(response => console.log(response))
         .catch(err => console.error(err));
-
-      console.log('Message %s sent: %s', info.messageId, info.response);
-
+      
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.send({
         code: 200,
