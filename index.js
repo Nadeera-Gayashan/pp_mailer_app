@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.post('/send-email', function (req, res) {
+app.post('/send-email', cors(), function (req, res) {
   const {image, businessName, businessAddress, businessEmail} = req.body;
   console.log(req, 'req');
 
