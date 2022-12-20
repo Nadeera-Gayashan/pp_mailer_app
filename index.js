@@ -50,6 +50,7 @@ app.post('/send-email', function (req, res) {
 
       const options = {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
           'X-Auth-Token': '8j2a33rpczgpchmd45jakzdgzl1e304',
