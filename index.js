@@ -52,7 +52,8 @@ app.post('/send-email', function (req, res) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Auth-Token': '8j2a33rpczgpchmd45jakzdgzl1e304'
+          'X-Auth-Token': '8j2a33rpczgpchmd45jakzdgzl1e304',
+          'Access-Control-Allow-Origin': '*'
         },
         body: `[{"email": ${businessEmail} ,"first_name": ${businessName},"last_name":${businessName}]`
       };
