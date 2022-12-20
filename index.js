@@ -19,8 +19,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/send-email', function (req, res) {
-  const {image, businessName, businessAddress} = req.body;
-  console.log(req.body, 'body');
+  const {image, businessName, businessAddress, businessEmail} = req.body;
+  console.log(req, 'req');
 
   const transporter = nodeMailer.createTransport({
     host: 'smtp.gmail.com',
@@ -31,7 +31,6 @@ app.post('/send-email', function (req, res) {
       pass: config.senderPass
     }
   });
-  
 
   let mailOptions = {
     from: config.senderEmail, // sender address
@@ -39,6 +38,7 @@ app.post('/send-email', function (req, res) {
     subject: 'NEW CLIENT HAS REGISTERED', // Subject line
     html: `<b>Business name: ${businessName}</b><br>
            <b>Business address: ${businessAddress}</b><br>
+           <b>Business email: ${businessEmail}</b><br>
            <img src="${image}" alt="">` , // html body
   };
 
@@ -47,6 +47,20 @@ app.post('/send-email', function (req, res) {
       if (error) {
         return console.log(error);
       }
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Auth-Token': '8j2a33rpczgpchmd45jakzdgzl1e304'
+        },
+        body: `[{"email": ${businessEmail} ,"first_name": ${businessName},"last_name":${businessName}]`
+      };
+
+      fetch('https://api.bigcommerce.com/stores/cvs5hyte09/v3/customers', options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
 
       console.log('Message %s sent: %s', info.messageId, info.response);
 
