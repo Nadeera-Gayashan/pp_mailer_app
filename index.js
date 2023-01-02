@@ -93,7 +93,7 @@ app.post('/send-email', cors(), async function (req, res) {
       }
     ],
     "authentication": {
-      "force_password_reset": true,
+      "force_password_reset": false,
       "new_password": password
     },
   }];
