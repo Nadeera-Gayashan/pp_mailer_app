@@ -28,8 +28,60 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.post('/send-email', cors(), function (req, res) {
-  const {image, businessName, businessAddress, businessEmail} = req.body;
+app.post('/send-email', cors(), async function (req, res) {
+  const {
+    image,
+    businessEmail,
+    password,
+    buyerFirstName,
+    buyerLastName,
+    companyName,
+    phoneNumber,
+    businessAddress1,
+    businessAddress2,
+    city,
+    state,
+    zip,
+    country
+  } = req.body;
+
+  const customer = [{
+    'email': businessEmail,
+    'first_name': buyerFirstName,
+    'last_name': buyerLastName,
+    "phone": phoneNumber,
+    "customer_group_id": 1,
+    "addresses": [
+      {
+        "address1": businessAddress1,
+        "address2": businessAddress2,
+        "city": city,
+        "company": companyName,
+        "country_code": "US",
+        "first_name": buyerFirstName,
+        "last_name": buyerLastName,
+        "phone": phoneNumber,
+        "postal_code": zip,
+        "state_or_province": 'California',
+      }
+    ],
+    "authentication": {
+      "force_password_reset": true,
+      "new_password": password
+    },
+  }];
+
+  try {
+    await bigCommerce.post('/customers', customer);
+  } catch (err) {
+    console.log(err);
+    res.send({
+      code: 422,
+      message: 'Something went wrong'
+    });
+    return;
+  }
+
 
   const transporter = nodeMailer.createTransport({
     host: 'smtp.gmail.com',
@@ -42,13 +94,20 @@ app.post('/send-email', cors(), function (req, res) {
   });
 
   let mailOptions = {
-    from: config.senderEmail, // sender address
-    to: config.reciverEmail, // list of receivers
-    subject: 'NEW CLIENT HAS REGISTERED', // Subject line
-    html: `<b>Business name: ${businessName}</b><br>
-           <b>Business address: ${businessAddress}</b><br>
+    from: config.senderEmail,
+    to: config.reciverEmail,
+    subject: 'NEW CLIENT HAS REGISTERED',
+    html: `<b>Customer name: ${buyerFirstName} ${buyerLastName}</b><br>
+           <b>Business Name: ${companyName}</b><br>
+           <b>Business address line 1: ${businessAddress1}</b><br>
+           <b>Business address line 2: ${businessAddress1}</b><br>
            <b>Business email: ${businessEmail}</b><br>
-           <img src="${image}" alt="">`, // html body
+           <b>Phone number: ${phoneNumber | '-'}</b><br>
+           <b>Country: ${country | '-'}</b><br>
+           <b>State: ${state | '-'}</b><br>
+           <b>City: ${city | '-'}</b><br>
+           <b>Zip: ${zip | '-'}</b><br>
+           <img src="${image}" alt="">`,
   };
 
   try {
@@ -57,32 +116,15 @@ app.post('/send-email', cors(), function (req, res) {
         return console.log(error);
       }
 
-      const customer = [{
-          "email": businessEmail,
-          "first_name": businessName,
-          "last_name": businessName
-        }];
-
-      bigCommerce.post('/customers' , customer)
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
-      
-      res.setHeader('Access-Control-Allow-Origin', '*');
+      console.log('the message was sent to: ', businessEmail);
       res.send({
         code: 200,
-        message: 'The message was sent'
-      })
+        message: 'The customer has created and the notification message was sent'
+      });
     });
   } catch (e) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    res.send({
-      code: 500,
-      message: 'Something went wrong with sending email'
-    })
+    console.log(e)
   }
-
-
 });
 
 app.listen(port, () => {
