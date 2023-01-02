@@ -3,6 +3,7 @@ const config = require('./config')
 const bodyParser = require('body-parser');
 const nodeMailer = require('nodemailer');
 const BigCommerce = require('node-bigcommerce');
+const request = require('request');
 
 const cors = require('cors');
 const app = express()
@@ -42,8 +43,34 @@ app.post('/send-email', cors(), async function (req, res) {
     city,
     state,
     zip,
-    country
+    country,
   } = req.body;
+
+  try {
+    request.post({
+      url: 'https://hcaptcha.com/siteverify',
+      form: {
+        secret: '0xd5d91d4805861721ca470987Ab1B839Fef9965a8',
+        response: req.body['h-captcha-response']
+      }
+    }, (err, httpResponse, body) => {
+      if (err) {
+        // An error occurred, handle it here
+      } else {
+        const responseData = JSON.parse(body);
+
+        if (!responseData.success) {
+          res.send({
+            code: 422,
+            message: 'Something went wrong'
+          });
+          return;
+        }
+      }
+    });
+  } catch (e) {
+    console.log(e);
+  }
 
   const customer = [{
     'email': businessEmail,
