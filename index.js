@@ -3,7 +3,6 @@ const config = require('./config')
 const bodyParser = require('body-parser');
 const nodeMailer = require('nodemailer');
 const BigCommerce = require('node-bigcommerce');
-const request = require('request');
 
 const cors = require('cors');
 const app = express()
@@ -43,35 +42,9 @@ app.post('/send-email', cors(), async function (req, res) {
     city,
     state,
     zip,
-    country,
+    country = 'United States',
     retailCertification
   } = req.body;
-
-  try {
-    request.post({
-      url: 'https://hcaptcha.com/siteverify',
-      form: {
-        secret: '0xd5d91d4805861721ca470987Ab1B839Fef9965a8',
-        response: req.body['h-captcha-response']
-      }
-    }, (err, httpResponse, body) => {
-      if (err) {
-        // An error occurred, handle it here
-      } else {
-        const responseData = JSON.parse(body);
-
-        if (!responseData.success) {
-          res.send({
-            code: 422,
-            message: 'Something went wrong'
-          });
-          return;
-        }
-      }
-    });
-  } catch (e) {
-    console.log(e);
-  }
 
   const customer = [{
     'email': businessEmail,
@@ -130,11 +103,12 @@ app.post('/send-email', cors(), async function (req, res) {
            <b>Business address line 1: ${businessAddress1}</b><br>
            <b>Business address line 2: ${businessAddress2}</b><br>
            <b>Business email: ${businessEmail}</b><br>
-           <b>Phone number: ${phoneNumber | '-'}</b><br>
-           <b>Country: ${country | '-'}</b><br>
-           <b>State: ${state | '-'}</b><br>
-           <b>City: ${city | '-'}</b><br>
-           <b>Zip: ${zip | '-'}</b><br>
+           <b>Phone number: ${phoneNumber}</b><br>
+           <b>Country: ${'United States'}</b><br>
+           <b>State: ${state}</b><br>
+           <b>City: ${city}</b><br>
+           <b>Zip: ${zip}</b><br>
+           <b>Retail Certification Number: ${retailCertification}</b><br>
            <img src="${image}" alt="">`,
   };
 
