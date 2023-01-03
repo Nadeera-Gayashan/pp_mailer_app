@@ -51,7 +51,6 @@ app.post('/send-email', cors(), async function (req, res) {
     'first_name': buyerFirstName,
     'last_name': buyerLastName,
     "phone": phoneNumber,
-    "customer_group_id": 1,
     "addresses": [
       {
         "address1": businessAddress1,
