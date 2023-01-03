@@ -44,6 +44,7 @@ app.post('/send-email', cors(), async function (req, res) {
     state,
     zip,
     country,
+    retailCertification
   } = req.body;
 
   try {
@@ -123,11 +124,11 @@ app.post('/send-email', cors(), async function (req, res) {
   let mailOptions = {
     from: config.senderEmail,
     to: config.reciverEmail,
-    subject: 'NEW CLIENT HAS REGISTERED',
-    html: `<b>Customer name: ${buyerFirstName} ${buyerLastName}</b><br>
+    subject: 'New PPL Wholesale Customer Application',
+    html: `<b>Buyer Name: ${buyerFirstName} ${buyerLastName}</b><br>
            <b>Business Name: ${companyName}</b><br>
            <b>Business address line 1: ${businessAddress1}</b><br>
-           <b>Business address line 2: ${businessAddress1}</b><br>
+           <b>Business address line 2: ${businessAddress2}</b><br>
            <b>Business email: ${businessEmail}</b><br>
            <b>Phone number: ${phoneNumber | '-'}</b><br>
            <b>Country: ${country | '-'}</b><br>
