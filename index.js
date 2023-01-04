@@ -48,8 +48,6 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
 
   const file = req.file;
 
-  console.log(req.file);
-
   const customer = [{
     'email': businessEmail,
     'first_name': buyerFirstName,
@@ -126,7 +124,6 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
         return console.log(error);
       }
 
-      console.log('the message was sent to: ', businessEmail);
       res.send({
         code: 200,
         message: 'The customer has created and the notification message was sent'
