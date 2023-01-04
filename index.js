@@ -6,6 +6,7 @@ const BigCommerce = require('node-bigcommerce');
 
 const cors = require('cors');
 const app = express()
+const multer = require('multer');
 
 app.use(cors({
   origin: '*'
@@ -28,9 +29,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.post('/send-email', cors(), async function (req, res) {
+app.post('/send-email', cors(), multer().single('image'), async function (req, res) {
   const {
-    image,
     businessEmail,
     password,
     buyerFirstName,
@@ -45,6 +45,10 @@ app.post('/send-email', cors(), async function (req, res) {
     country = 'United States',
     retailCertification
   } = req.body;
+
+  const file = req.file;
+
+  console.log(req.file);
 
   const customer = [{
     'email': businessEmail,
@@ -107,8 +111,13 @@ app.post('/send-email', cors(), async function (req, res) {
            <b>State: ${state}</b><br>
            <b>City: ${city}</b><br>
            <b>Zip: ${zip}</b><br>
-           <b>Retail Certification Number: ${retailCertification}</b><br>
-           <img src="${image}" alt="">`,
+           <b>Retail Certification Number: ${retailCertification}</b><br>`,
+    attachments: [
+      {
+        filename: file.originalname,
+        content: file.buffer
+      }
+    ]
   };
 
   try {
