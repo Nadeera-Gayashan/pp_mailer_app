@@ -123,7 +123,8 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
       if (error) {
         return console.log(error);
       }
-
+      console.log(info);
+      
       res.send({
         code: 200,
         message: 'The customer has created and the notification message was sent'
