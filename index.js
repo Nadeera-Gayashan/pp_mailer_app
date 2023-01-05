@@ -53,6 +53,8 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
     'first_name': buyerFirstName,
     'last_name': buyerLastName,
     "phone": phoneNumber,
+    "company": companyName,
+    "customer_group_id": 3,
     "addresses": [
       {
         "address1": businessAddress1,
@@ -65,6 +67,8 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
         "phone": phoneNumber,
         "postal_code": zip,
         "state_or_province": 'California',
+        "address_type": "commercial",
+
       }
     ],
     "authentication": {
@@ -123,8 +127,7 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
       if (error) {
         return console.log(error);
       }
-      console.log(info);
-      
+
       res.send({
         code: 200,
         message: 'The customer has created and the notification message was sent'
