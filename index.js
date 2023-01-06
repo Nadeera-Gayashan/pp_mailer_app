@@ -54,7 +54,6 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
     'last_name': buyerLastName,
     "phone": phoneNumber,
     "company": companyName,
-    "customer_group_id": 3,
     "addresses": [
       {
         "address1": businessAddress1,
