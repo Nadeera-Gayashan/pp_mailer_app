@@ -36,6 +36,7 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
     buyerFirstName,
     buyerLastName,
     companyName,
+    businessType,
     phoneNumber,
     businessAddress1,
     businessAddress2,
@@ -43,7 +44,8 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
     state,
     zip,
     country = 'United States',
-    retailCertification
+    retailCertification,
+    retailCertificationState
   } = req.body;
 
   const file = req.file;
@@ -104,6 +106,7 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
     subject: 'New PPL Wholesale Customer Application',
     html: `<b>Buyer Name: ${buyerFirstName} ${buyerLastName}</b><br>
            <b>Business Name: ${companyName}</b><br>
+           <b>Business Type: ${businessType}</b><br>
            <b>Business address line 1: ${businessAddress1}</b><br>
            <b>Business address line 2: ${businessAddress2}</b><br>
            <b>Business email: ${businessEmail}</b><br>
@@ -112,7 +115,8 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
            <b>State: ${state}</b><br>
            <b>City: ${city}</b><br>
            <b>Zip: ${zip}</b><br>
-           <b>Retail Certification Number: ${retailCertification}</b><br>`,
+           <b>Retail Certification Number: ${retailCertification}</b><br>
+           <b>Retail Certification State: ${retailCertificationState}</b><br>`,
     attachments: [
       {
         filename: file.originalname,
