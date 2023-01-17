@@ -18,9 +18,9 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 const port = config.port;
 
 const bigCommerce = new BigCommerce({
-  clientId: 't8mryy4yfsbe6ww92q5lzltlqq14pyy',
-  accessToken: 'oe9manpg8lwxnex5lnhprks9rhbfva3',
-  storeHash: '6at0uo0xax',
+  clientId: 'mzq0supnse4z785wmcez9ssg2dxgrjf',
+  accessToken: '8j2a33rpczgpchmd45jakzdgzl1e304',
+  storeHash: 'cvs5hyte09',
   responseType: 'json',
   apiVersion: 'v3' // Default is v2
 });
