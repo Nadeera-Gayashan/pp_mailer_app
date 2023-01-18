@@ -18,9 +18,9 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 const port = config.port;
 
 const bigCommerce = new BigCommerce({
-  clientId: 'mzq0supnse4z785wmcez9ssg2dxgrjf',
-  accessToken: '8j2a33rpczgpchmd45jakzdgzl1e304',
-  storeHash: 'cvs5hyte09',
+  clientId: 's6u73s8wi9ksi329x0a6xr4c5wzcprb',
+  accessToken: 't525twricsuqvefl9ob4y2872phx3t3',
+  storeHash: '6at0uo0xax',
   responseType: 'json',
   apiVersion: 'v3' // Default is v2
 });
@@ -103,7 +103,7 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
   let mailOptions = {
     from: config.senderEmail,
     to: config.reciverEmail,
-    subject: 'New PPL Wholesale Customer Application',
+    subject: 'New PPLF Wholesale Customer Application',
     html: `<b>Buyer Name: ${buyerFirstName} ${buyerLastName}</b><br>
            <b>Business Name: ${companyName}</b><br>
            <b>Business Type: ${businessType}</b><br>
