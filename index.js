@@ -3,7 +3,7 @@ const config = require('./config')
 const bodyParser = require('body-parser');
 const nodeMailer = require('nodemailer');
 const BigCommerce = require('node-bigcommerce');
-
+const generateEmailBody = require('./welcomeEmail');
 const cors = require('cors');
 const app = express()
 const multer = require('multer');
@@ -139,12 +139,7 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
     from: config.senderEmail,
     to: businessEmail,
     subject: 'Welcome to Our Site',
-    html: `
-        <h1 style="text-align: center;">Welcome to Our Site!</h1>
-        <p>Thank you for signing up for an account. We're excited to have you on board.</p>
-        <p>If you have any questions or need assistance, please don't hesitate to reach out to our support team.</p>
-        <p>Best,<br>The Team</p>
-    `,
+    html: generateEmailBody()
   };
 
 
