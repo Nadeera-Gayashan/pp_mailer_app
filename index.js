@@ -130,14 +130,32 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
       if (error) {
         return console.log(error);
       }
-
-      res.send({
-        code: 200,
-        message: 'The customer has created and the notification message was sent'
-      });
     });
   } catch (e) {
     console.log(e)
+  }
+
+  let welcomeMailOptions = {
+    from: config.senderEmail,
+    to: businessEmail,
+    subject: 'Welcome to Our Site',
+    html: `
+        <h1 style="text-align: center;">Welcome to Our Site!</h1>
+        <p>Thank you for signing up for an account. We're excited to have you on board.</p>
+        <p>If you have any questions or need assistance, please don't hesitate to reach out to our support team.</p>
+        <p>Best,<br>The Team</p>
+    `,
+  };
+
+
+  try {
+    transporter.sendMail(welcomeMailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+    });
+  } catch (e) {
+    console.log(e);
   }
 });
 
