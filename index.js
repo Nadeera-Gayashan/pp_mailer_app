@@ -117,12 +117,12 @@ app.post('/send-email', cors(), multer().single('image'), async function (req, r
            <b>Zip: ${zip}</b><br>
            <b>Retail Certification Number: ${retailCertification}</b><br>
            <b>Retail Certification State: ${retailCertificationState}</b><br>`,
-    attachments: [
-      {
-        filename: file.originalname,
-        content: file.buffer
-      }
-    ]
+    // attachments: [
+    //   {
+    //     filename: file.originalname,
+    //     content: file.buffer
+    //   }
+    // ]
   };
 
   try {
